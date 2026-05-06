@@ -39,6 +39,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    packaging {
+        resources {
+            excludes.add("org/eclipse/jetty/http/encoding.properties")
+        }
+    }
 }
 
 configurations.all {
@@ -54,8 +60,8 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     
-    // Javalin for HTTP server with reliable streaming support
-    implementation("io.javalin:javalin:5.6.3")
+    // Javalin for HTTP server with Java 8 compatibility
+    implementation("io.javalin:javalin:4.6.4")
     
     // SLF4J for Javalin logging (required dependency)
     implementation("org.slf4j:slf4j-android:1.7.36")

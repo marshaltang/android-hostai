@@ -99,10 +99,8 @@ class OpenAIApiServer(
             
             app = Javalin.create { config ->
                 // Configure Javalin
-                config.http.maxRequestSize = MAX_REQUEST_BODY_SIZE.toLong()
+                config.maxRequestSize = MAX_REQUEST_BODY_SIZE.toLong()
                 config.showJavalinBanner = false
-                config.http.asyncTimeout = 300000L // 5 minutes for streaming
-                config.jetty.server { Server(threadPool) }
             }.apply {
                 // Health check
                 get("/health") { ctx -> handleHealth(ctx) }
@@ -576,7 +574,7 @@ class OpenAIApiServer(
         ctx.header("Connection", "keep-alive")
         
         // Get the response output stream
-        val outputStream = ctx.res().outputStream
+        val outputStream = ctx.res.getOutputStream()
         
         // Accumulate response for logging (using StringBuffer for thread safety)
         val accumulatedResponse = StringBuffer()
@@ -870,7 +868,7 @@ class OpenAIApiServer(
         ctx.header("Connection", "keep-alive")
         
         // Get the response output stream
-        val outputStream = ctx.res().outputStream
+        val outputStream = ctx.res.getOutputStream()
         
         // Accumulate response for logging (using StringBuffer for thread safety)
         val accumulatedResponse = StringBuffer()
